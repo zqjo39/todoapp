@@ -1,0 +1,7 @@
+extends layout
+
+block content
+    form(action = `/edit/${item.id}` method = "post")
+        label(for = "description") Description
+        input(type = "text" id = "description" name = "description" value = `${item.description}`)
+        button(type = "submit") Update Item

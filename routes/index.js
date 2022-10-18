@@ -50,4 +50,44 @@ router.get('/incomplete/:id', async function(req, res) {
   res.redirect('/')
 });
 
+router.get('/delete/:id', async function(req, res) {
+  const {sequelize} = require("../models/index");
+  const {QueryTypes} = require("sequelize");
+  await sequelize.query('delete from todo where id = :id', {
+    type: QueryTypes.DELETE,
+    replacements: {
+      id: req.params.id
+    }
+  });
+  res.redirect('/')
+});
+
+router.get('/edit/:id', async function(req, res) {
+  const {sequelize} = require("../models/index");
+  const {QueryTypes} = require("sequelize");
+  const results = await sequelize.query('select * from todo where id = :id', {
+    type: QueryTypes.SELECT,
+    replacements: {
+      id: req.params.id
+    }
+  });
+  const item = results[0];
+  console.log(results);
+  res.render('edit_todo', {item})
+});
+
+router.post('/edit/:id', async function(req, res) {
+  const {sequelize} = require("../models/index");
+  const {QueryTypes} = require("sequelize");
+  await sequelize.query('update todo set description = :description where id = :id', {
+    type: QueryTypes.UPDATE,
+    replacements: {
+      id: req.params.id,
+      description: req.body.description
+    }
+  });
+  res.redirect('/')
+});
+
+
 module.exports = router;
