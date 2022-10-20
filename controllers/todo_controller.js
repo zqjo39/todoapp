@@ -1,6 +1,6 @@
 const {sequelize} = require("../models/index");
 const {QueryTypes} = require("sequelize");
-const {Todo} = require('../models/index')
+const {Todo} = require('../models/index');
 
 module.exports.homeRoute = async function(req, res, next) {
     let toDoItems = await Todo.findAll();
